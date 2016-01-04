@@ -41,7 +41,7 @@ app.post('/stock', function(request, response) {
     console.log('Payload', request.body);
 
     collection.then(function(collection) {
-        return collection.insertMany(collection);
+        return collection.insertMany(request.body);
     }).
     then(function(books) {
         response.json(books);
@@ -56,9 +56,13 @@ app.post('/stock', function(request, response) {
  */
 app.get('/stock', function(request, response) {
     collection.then(function(collection) {
+        throw new Error('error in promise');
         return collection.find({}).toArray();
     }).then(function(books) {
         response.json(books)
+    }).catch(function(err) {
+        console.error(err);
+        response.status(500).json({error: err.toString()})
     });
 });
 
