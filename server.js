@@ -1,12 +1,31 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+
 var app = express();
 
 /**
- * Router
+ * Initialize body parsing
+ */
+app.use(bodyParser.json());
+
+/**
+ * Hello world endpoint
  */
 app.get('/', function(request, response) {
     throw new Error('App logic is somehow broken. 500.');
-    response.send('hello world');
+    response.json({
+        message: 'hello world'
+    });
+});
+
+/**
+ * Adding to stock endpoint
+ */
+app.post('/stock', function(request, response) {
+    console.log('ISBN', request.body.isbn);
+    console.log('COUNT', request.body.count);
+    // Dummy return the request body
+    response.json(request.body);
 });
 
 /**
@@ -37,7 +56,7 @@ var errorHandler = function(err, req, res, next) {
     res.status(status);
     res.json({
         message: 'Error handler fired',
-        error: (process.env.NODE_ENV === 'production') ? {} : err.toString()
+        error: (process.env.NODE_ENV === 'development') ? err.toString() : {}
     });
 };
 app.use(errorHandler);
