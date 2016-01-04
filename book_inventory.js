@@ -1,24 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var repository = require('./db_repository');
 
 var app = express();
-
-/**
- * Init MongoClient
- */
-var mongoClient = require('mongodb').MongoClient;
-var assert = require('assert');
-
-var url = 'mongodb://localhost:27017/book_inventory';
-var collection = null;
-collection = mongoClient.connect(url).then(function(db) {
-    console.log('Promise met');
-    console.log(db);
-
-    return db.collection('books')
-});
-
-
 /**
  * Initialize body parsing
  */
@@ -35,34 +19,45 @@ app.get('/', function(request, response) {
 });
 
 /**
+ * Get books collection
+ */
+app.get('/stock', function(request, response) {
+    repository.getStock().then(function(stock) {
+        console.log("Stock from repository", stock);
+        if (null === stock) {
+            throw new Error('Stock could not be found');
+        }
+        response.status(200).json(stock);
+    });
+});
+
+/**
+ * Get book by ISBN
+ */
+app.get('/stock/:isbn', function(request, response) {
+    var isbn = request.params.isbn;
+    console.log('Asking for ISBN: ' + isbn);
+
+    repository.findByIsbn(isbn).then(function(book) {
+        console.log("Book from repository", book);
+        // TODO: Add 404 handling
+        response.status(200).json(book);
+    });
+});
+
+/**
  * Add books to collection endpoint
  */
 app.post('/stock', function(request, response) {
     console.log('Payload', request.body);
 
-    collection.then(function(collection) {
-        return collection.insertMany(request.body);
-    }).
-    then(function(books) {
-        response.json(books);
-    });
+    // TODO: Pass clone of request.body, not original
+    repository.addToStock(request.body).then(function(savedStock) {
+        if (savedStock.result.n !== request.body.length) {
+            throw new Error('Error saving stock');
+        }
 
-    // Dummy return the request body
-    response.status(200).json(request.body);
-});
-
-/**
- * Get books collection
- */
-app.get('/stock', function(request, response) {
-    collection.then(function(collection) {
-        throw new Error('error in promise');
-        return collection.find({}).toArray();
-    }).then(function(books) {
-        response.json(books)
-    }).catch(function(err) {
-        console.error(err);
-        response.status(500).json({error: err.toString()})
+        response.status(200).json(request.body);
     });
 });
 
