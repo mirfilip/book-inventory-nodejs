@@ -9,12 +9,12 @@ var logger = function(request, response, next) {
     next();
 };
 
-app.use(logger);
+//app.use(logger);
 
 /**
  * Router
  */
-app.get('/', function(request, response) {
+app.get('/', logger, function(request, response) {
     response.end('hello world');
 });
 
