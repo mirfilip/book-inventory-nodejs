@@ -4,6 +4,22 @@ var bodyParser = require('body-parser');
 var app = express();
 
 /**
+ * Init MongoClient
+ */
+var mongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
+
+var url = 'mongodb://localhost:27017/book_inventory';
+var collection = null;
+collection = mongoClient.connect(url).then(function(db) {
+    console.log('Promise met');
+    console.log(db);
+
+    return db.collection('books')
+});
+
+
+/**
  * Initialize body parsing
  */
 app.use(bodyParser.json());
@@ -19,13 +35,31 @@ app.get('/', function(request, response) {
 });
 
 /**
- * Adding to stock endpoint
+ * Add books to collection endpoint
  */
 app.post('/stock', function(request, response) {
-    console.log('ISBN', request.body.isbn);
-    console.log('COUNT', request.body.count);
+    console.log('Payload', request.body);
+
+    collection.then(function(collection) {
+        return collection.insertMany(collection);
+    }).
+    then(function(books) {
+        response.json(books);
+    });
+
     // Dummy return the request body
-    response.json(request.body);
+    response.status(200).json(request.body);
+});
+
+/**
+ * Get books collection
+ */
+app.get('/stock', function(request, response) {
+    collection.then(function(collection) {
+        return collection.find({}).toArray();
+    }).then(function(books) {
+        response.json(books)
+    });
 });
 
 /**
@@ -60,4 +94,5 @@ var errorHandler = function(err, req, res, next) {
     });
 };
 app.use(errorHandler);
+
 module.exports = app;

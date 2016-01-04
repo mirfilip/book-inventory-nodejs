@@ -5,13 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "export NODE_ENV=development; nodemon server.js",
-    "test": "node_modules/mocha/bin/mocha"
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.14.2",
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "mongodb": "^2.1.2"
   },
   "devDependencies": {
     "mocha": "^2.3.4",
