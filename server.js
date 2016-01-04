@@ -1,6 +1,19 @@
 var express = require('express');
 var app = express();
 
+/**
+ * Logger
+ */
+var logger = function(request, response, next) {
+    console.log('There is an incoming request ' + Date.now());
+    next();
+};
+
+app.use(logger);
+
+/**
+ * Router
+ */
 app.get('/', function(request, response) {
     response.end('hello world');
 });
