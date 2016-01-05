@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "node server.js",
+    "start-local": "nodemon server.js",
     "lint": "jshint --exclude=node_modules/** **.js test/**.js",
     "test": "mocha"
   },
