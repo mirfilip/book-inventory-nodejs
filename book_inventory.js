@@ -1,10 +1,7 @@
 var express = require('express');
-var bodyParser = require('body-parser');
-var repository = require('./db_repository')();
-
 var app = express();
+var bodyParser = require('body-parser');
 
-//module.exports = app;
 module.exports = function(repository) {
     /**
      * Initialize body parsing
@@ -96,4 +93,6 @@ module.exports = function(repository) {
         });
     };
     app.use(errorHandler);
+
+    return app;
 };
