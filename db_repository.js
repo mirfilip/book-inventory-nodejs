@@ -7,7 +7,7 @@ var assert = require('assert');
 var url = 'mongodb://localhost:27017/book_inventory';
 var collection = null;
 collection = mongoClient.connect(url).then(function(db) {
-    return db.collection('books')
+    return db.collection('books');
 });
 
 module.exports = function() {
@@ -48,5 +48,5 @@ module.exports = function() {
                 return null;
             });
         }
-    }
+    };
 };
