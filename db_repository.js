@@ -4,8 +4,7 @@
 var mongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 
-//var url = 'mongodb://localhost:27017/book_inventory';
-var url = process.env.MONGO_URI;
+var url = process.env.MONGO_URI || 'mongodb://localhost:27017/book_inventory';
 var collection = null;
 collection = mongoClient.connect(url).then(function(db) {
     return db.collection('books');
