@@ -1,5 +1,6 @@
 var test = require('supertest');
-var app = require('../book_inventory');
+var repository = require('./inmemory_repository')();
+var app = require('../book_inventory')(repository);
 
 /**
  * Test
