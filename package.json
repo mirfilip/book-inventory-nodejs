@@ -7,7 +7,8 @@
     "start": "node server.js",
     "start-local": "nodemon server.js",
     "lint": "jshint --exclude=node_modules/** **.js test/**.js",
-    "heroin": "node ./infrastructure/heroku.js",
+    "heroin-staging": "node ./infrastructure/staging.js",
+    "heroin-prod": "node ./infrastructure/prod.js",
     "test": "mocha"
   },
   "author": "",
