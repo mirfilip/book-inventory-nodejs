@@ -14,7 +14,7 @@ module.exports = function(repository) {
     app.get('/', function(request, response) {
         //throw new Error('App logic is somehow broken. 500.');
         response.json({
-            message: 'hello world'
+            message: 'hello world on ' + process.env.NODE_ENV + ' environment'
         });
     });
 
