@@ -15,7 +15,7 @@ var prodConfig = {
         'miroslaw.filip@schibsted.pl']
 };
 
-var finalConfig = _.merge(baseConfig, prodConfig);
+var finalConfig = _.merge({}, baseConfig, prodConfig);
 console.log("Applying config:");
 console.log(finalConfig);
 

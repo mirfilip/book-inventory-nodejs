@@ -14,7 +14,7 @@ var stagingConfig = {
         'miroslaw.filip@schibsted.pl']
 };
 
-var finalConfig = _.merge(baseConfig, stagingConfig);
+var finalConfig = _.merge({}, baseConfig, stagingConfig);
 console.log("Applying config:");
 console.log(finalConfig);
 
