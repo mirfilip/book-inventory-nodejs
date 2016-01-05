@@ -7,6 +7,7 @@
     "start": "node server.js",
     "start-local": "nodemon server.js",
     "lint": "jshint --exclude=node_modules/** **.js test/**.js",
+    "heroin": "node ./infrastructure/heroku.js",
     "test": "mocha"
   },
   "author": "",
@@ -17,6 +18,7 @@
     "mongodb": "^2.1.2"
   },
   "devDependencies": {
+    "heroin-js": "^1.4.0",
     "jshint": "^2.8.0",
     "lodash": "^3.10.1",
     "mocha": "^2.3.4",
