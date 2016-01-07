@@ -45,6 +45,40 @@ module.exports = function(repository) {
         });
     });
 
+    app.get('/books/:isbn', function(request, response) {
+        var isbn = request.params.isbn;
+        console.log('Asking for ISBN: ' + isbn);
+
+        repository.findByIsbn(isbn).
+        then(function(book) {
+            var availability = 'available';
+            if (book) {
+                response.format({
+                    'text/html': function() {
+                        response.send('<div class="available">' + availability + '</div>');
+                    },
+                    'application/json': function(){
+                        response.send({ status: availability });
+                    }
+                });
+            } else {
+                availability = 'not ' + availability;
+
+                response.format({
+                    'text/html': function() {
+                        response.send('<div class="not-available">' + availability + '</div>');
+                    },
+                    'application/json': function(){
+                        response.send({ status: availability });
+                    }
+                });
+            }
+        }).
+        catch(function(err) {
+            console.error(err);
+        });
+    });
+
     /**
      * Add books to collection endpoint
      */
